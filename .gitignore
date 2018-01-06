@@ -108,3 +108,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+pynsist_pkgs
+pynsist_pkgs/
+pynsist_pkgs/*
