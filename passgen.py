@@ -6,6 +6,7 @@ import pyperclip
 from substitute import fullSub
 from substitute import basicSub
 from substitute import appendNumbers
+from substitute import replaceQuestionMarks
 import argparse
 
 
@@ -44,6 +45,7 @@ if __name__ == '__main__':
 	parser.add_argument("-t", "--target", help="The target of the HTTP POST request.")
 	parser.add_argument("-d", "--data", help="The data for the post request.")
 	parser.add_argument("-g", "--search", help="The text to search for in POST respose that will indicate a successful login.")
+	parser.add_argument("-q", "--custom", help="Read characters from list and generate combinations for ? in input password.", action="store_true")
 	parser.add_argument("password",nargs="*")
 	args = parser.parse_args()
 
@@ -54,6 +56,8 @@ if __name__ == '__main__':
 		passwords = fullSub(password)
 	elif args.numbers:
 		passwords = appendNumbers(password)
+	elif args.custom:
+		passwords = replaceQuestionMarks(password)
 	else:
 		passwords = basicSub(password)
 
