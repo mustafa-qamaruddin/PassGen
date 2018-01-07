@@ -3,6 +3,9 @@ from lists import subDict
 from lists import dummyCharacters
 from lists import numbersOnly
 from custom import CHARSLIST
+import multiprocessing
+from contextlib import closing
+import time
 
 #returns the cartesian product of all replaceable characters
 def fullSub(password):
@@ -31,6 +34,12 @@ def basicSub(password, numbers=False):
 def appendNumbers(password):
     return basicSub(password, True)
 
+def joinResults(caseStr):
+    ret = ""
+    for chr in caseStr:
+        ret += chr
+    return ret
+
 # same as full but replaces ? only
 # @author Mustafa Qamar-ud-Din <m.qamaruddin@mQuBits.com>
 def replaceQuestionMarks(password):
@@ -41,5 +50,12 @@ def replaceQuestionMarks(password):
             letters.append(CHARSLIST)
         else:
             letters.append(val)
-    # return list(product(*letters))
-    return [''.join(item) for item in product(*letters)]
+    print "Multiprocessing Initialized"
+    print "# of CPUs: %d" % multiprocessing.cpu_count()
+    start_time = time.time()
+    with closing(multiprocessing.Pool()) as pool:
+        ret= pool.map(joinResults, product(*letters))
+        pool.terminate()
+        print "Performance Tracking:"
+        print("--- %s seconds ---" % (round(time.time() - start_time)))
+        return ret
