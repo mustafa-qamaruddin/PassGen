@@ -2,10 +2,6 @@ from itertools import product
 from lists import subDict
 from lists import dummyCharacters
 from lists import numbersOnly
-from custom import CHARSLIST
-import multiprocessing
-from contextlib import closing
-import time
 
 #returns the cartesian product of all replaceable characters
 def fullSub(password):
@@ -33,29 +29,3 @@ def basicSub(password, numbers=False):
 #same as basic substitution, but appends 0-9999 to the end
 def appendNumbers(password):
     return basicSub(password, True)
-
-def joinResults(caseStr):
-    ret = ""
-    for chr in caseStr:
-        ret += chr
-    return ret
-
-# same as full but replaces ? only
-# @author Mustafa Qamar-ud-Din <m.qamaruddin@mQuBits.com>
-def replaceQuestionMarks(password):
-    letters = []
-    # place substitution sets into the letters array
-    for val in password:
-        if val == '?':
-            letters.append(CHARSLIST)
-        else:
-            letters.append(val)
-    print "Multiprocessing Initialized"
-    print "# of CPUs: %d" % multiprocessing.cpu_count()
-    start_time = time.time()
-    with closing(multiprocessing.Pool()) as pool:
-        ret= pool.map(joinResults, product(*letters))
-        pool.terminate()
-        print "Performance Tracking:"
-        print("--- %s seconds ---" % (round(time.time() - start_time)))
-        return ret

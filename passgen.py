@@ -6,7 +6,7 @@ import pyperclip
 from substitute import fullSub
 from substitute import basicSub
 from substitute import appendNumbers
-from substitute import replaceQuestionMarks
+from customgen import CustomGen
 import argparse
 
 
@@ -22,7 +22,7 @@ def writePasswordsToClipboard(passwords):
 
 def writePasswordsToFile(outputFile, passwords):
 	with open(outputFile, 'w') as f:
-		f.write('\n'.join(passwords))
+		f.write('\n\r'.join(passwords))
 	print '%s passwords written to %s' % (len(passwords), outputFile)
 	f.close()
 
@@ -57,7 +57,8 @@ if __name__ == '__main__':
 	elif args.numbers:
 		passwords = appendNumbers(password)
 	elif args.custom:
-		passwords = replaceQuestionMarks(password)
+		cg = CustomGen()
+		passwords = cg.replaceQuestionMarks(password)
 	else:
 		passwords = basicSub(password)
 
@@ -80,5 +81,7 @@ if __name__ == '__main__':
 			print 'You must specify a target URL in order to make a HTTP request'
 			sys.exit()
 		makeRequests(args.target, args.data, passwords,args.search)
+	elif args.custom:
+		print("--- temp.txt was filled with passwords, please remove or rename before next task --- ")
 	else:
 		printPasswords(passwords)
