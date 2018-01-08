@@ -6,7 +6,7 @@ import pyperclip
 from substitute import fullSub
 from substitute import basicSub
 from substitute import appendNumbers
-from customgen import CustomGen
+from cartesiangraph import customgen
 import argparse
 
 
@@ -57,8 +57,7 @@ if __name__ == '__main__':
 	elif args.numbers:
 		passwords = appendNumbers(password)
 	elif args.custom:
-		cg = CustomGen()
-		passwords = cg.replaceQuestionMarks(password)
+		customgen(password)
 	else:
 		passwords = basicSub(password)
 
