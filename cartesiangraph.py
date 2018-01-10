@@ -1,10 +1,8 @@
 from custom import CHARSLIST
-import networkx as nx
-import matplotlib.pyplot as plt
 from multiprocessing import Process
 import os
 
-def customgen(password, outputfilename="temp.txt"):
+def customgen(password, outputfilename="temp.txt", outwidget=None):
     vecs = []
     for chr in password:
         if chr == "?":
@@ -12,21 +10,21 @@ def customgen(password, outputfilename="temp.txt"):
         else:
             vecs.append([chr])
     with open(outputfilename, 'a') as f:
-        recursive_aux(vecs, 0, "", f)
+        recursive_aux(vecs, 0, "", f, outwidget)
     f.close()
     return
 
-def recursive_aux(vecs, idx, sofar, filehdl):
+def recursive_aux(vecs, idx, sofar, filehdl, outwidget=None):
     if idx >= len(vecs):
-        print(sofar)
+        outwidget.append(sofar)
         filehdl.write('\n\r%s'%sofar)
         return
     for letter in vecs[idx]:
-        info('main line')
-        p = Process(target=recursive_aux, args=(vecs, idx+1, sofar + letter, filehdl,))
-        p.start()
-        p.join()
-        #recursive_aux(vecs, idx+1, sofar + letter, filehdl)
+        # info('main line')
+        # p = Process(target=recursive_aux, args=(vecs, idx+1, sofar + letter, filehdl, outwidget))
+        # p.start()
+    # p.join()
+        recursive_aux(vecs, idx+1, sofar + letter, filehdl, outwidget)
     return
 
 def info(title):
