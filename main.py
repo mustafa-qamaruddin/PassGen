@@ -28,7 +28,7 @@ class PassGenApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         if not in_password:
             return
 
-        self.spinBox.setValue(len(in_password))
+        self.spinBox.setValue(self.countLength(in_password))
         self.textEdit.append(" --- Generating --- ")
         customgen(in_password, file_name, self.textEdit)
         self.textEdit.append(" --- Generated --- ")
@@ -38,6 +38,18 @@ class PassGenApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
 
     def refreshTextArea(self, password):
         self.textEdit.append(password)
+
+    def countLength(self, input_str):
+        counter = 0
+        bool_unknown = False
+        for c in input_str:
+            if c == "(":
+                bool_unknown = True
+            elif c == ")":
+                bool_unknown = False
+            if not bool_unknown:
+                counter += 1
+        return counter
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

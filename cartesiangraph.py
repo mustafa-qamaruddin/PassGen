@@ -4,9 +4,19 @@ import os
 
 def customgen(password, outputfilename="temp.txt", outwidget=None):
     vecs = []
+    bool_unknown = False
+    ls_unknown = []
     for chr in password:
-        if chr == "?":
-            vecs.append(CHARSLIST)
+        if chr == "(":
+            bool_unknown = True
+        elif chr == ")":
+            bool_unknown = False
+            vecs.append(ls_unknown)
+            ls_unknown = []
+        elif bool_unknown and chr != "(" and chr != ",":
+            ls_unknown.append(chr)
+        elif bool_unknown and chr == ",":
+            continue
         else:
             vecs.append([chr])
     with open(outputfilename, 'a') as f:
