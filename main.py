@@ -60,8 +60,8 @@ class PassGenApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.passgenthread = PassGenThread(in_password, file_name, self.pysign)
         self.passgenthread.start()
 
-        self.textEdit.append(" --- Generated --- ")
-        self.textEdit.append(" ------ Changes were written to %s ------- " % file_name)
+        self.textEdit.append(" --- Multi Threading --- ")
+        self.textEdit.append(" ------ Changes are being written to %s ------- " % file_name)
         self.textEdit.append(" ... ")
         self.textEdit.append(" / ")
 

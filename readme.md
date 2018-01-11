@@ -83,10 +83,18 @@ PassGen only substitutes characters for alpha characters.  This means that if yo
 - [Requests](http://docs.python-requests.org/en/latest/user/install/#install)
 - [Pyperclip](http://coffeeghost.net/2010/10/09/pyperclip-a-cross-platform-clipboard-module-for-python/)
 
-### Custom Ccommand
+### Custom Command
 Create a basic password list based on custom.py array of symbols and replace all occurrences of '?' with combinations and permutations
 
 ```
-python passgen.py -qc s?m?th
+python passgen.py -q s?m?th -o sample.txt
 ```
 
+## GUI
+Run GUI via
+```
+$ python main.py
+```
+
+## Options
+For limited combinatoric options insert new password as (a@)bc(e3E) where characters between brackets present options to choose from in combinations.
