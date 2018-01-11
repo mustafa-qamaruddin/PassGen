@@ -1,9 +1,33 @@
 from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtCore import QThread
+from PyQt5.QtCore import pyqtSignal
 import sys
 import gui
 from cartesiangraph import customgen
 
+class PassGenThread(QThread):
+
+    password = ""
+    filename = ""
+    displaywidget = None
+
+    def __init__(self, _p, _f, _d):
+        QThread.__init__(self)
+        self.password = _p
+        self.filename = _f
+        self.displaywidget = _d
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        customgen(self.password, self.filename, self.displaywidget)
+        return
+
 class PassGenApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
+
+    pysign = pyqtSignal(str)
+
     def __init__(self, parent=None):
         super(PassGenApp, self).__init__(parent)
         self.setupUi(self)
@@ -30,7 +54,12 @@ class PassGenApp(QtWidgets.QMainWindow, gui.Ui_MainWindow):
 
         self.spinBox.setValue(self.countLength(in_password))
         self.textEdit.append(" --- Generating --- ")
-        customgen(in_password, file_name, self.textEdit)
+
+        self.pysign.connect(self.refreshTextArea)
+
+        self.passgenthread = PassGenThread(in_password, file_name, self.pysign)
+        self.passgenthread.start()
+
         self.textEdit.append(" --- Generated --- ")
         self.textEdit.append(" ------ Changes were written to %s ------- " % file_name)
         self.textEdit.append(" ... ")

@@ -1,5 +1,6 @@
-from custom import CHARSLIST
-from multiprocessing import Process
+# from custom import CHARSLIST
+# from multiprocessing import Process
+
 import os
 
 def customgen(password, outputfilename="temp.txt", outwidget=None):
@@ -26,7 +27,7 @@ def customgen(password, outputfilename="temp.txt", outwidget=None):
 
 def recursive_aux(vecs, idx, sofar, filehdl, outwidget=None):
     if idx >= len(vecs):
-        outwidget.append(sofar)
+        outwidget.emit(sofar)
         filehdl.write('\n\r%s'%sofar)
         return
     for letter in vecs[idx]:
